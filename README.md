@@ -1,7 +1,7 @@
 # Artur
 
 This program is used for training mental arithmetic power.
-Arthur Benjamin is known as mathmajician[1].
+Arthur Benjamin is known as mathmajician[Arthur Benjamin].
 According to the book he written, his great talent for mental arithmetic is not talented, and you can get the ability to train.  
 However it's boring to make training sample, so this program can slove that problem.
 
@@ -26,4 +26,4 @@ add, mul, sub are supported.
 
 
 
-[1](https://www.ted.com/talks/arthur_benjamin_does_mathemagic?language = ja)
+[Arthur Benjamin](https://www.ted.com/talks/arthur_benjamin_does_mathemagic?language = ja)
