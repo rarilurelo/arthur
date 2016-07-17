@@ -52,10 +52,10 @@ class Problem(object):
         correct = 0
         for first, secound, answer in self.triplet():
             self.question(first, secound)
-            inference = raw_input()
+            inference = sys.stdin.readline().strip()
             while 'onemore' == inference:
                 self.question(first, secound)
-                inference = raw_input()
+                inference = sys.stdin.readline().strip()
             if answer == int(inference):
                 print("正解!")
                 correct += 1
@@ -93,7 +93,7 @@ if __name__ == '__main__':
             result_accuracy.append(line[0])
             result_tpp.append(line[1])
     print("{} {}digit and {}digitの結果を表示しますか?[y/n]".format(args.operator, args.shape[0], args.shape[1]))
-    if raw_input() == 'y':
+    if sys.stdin.readline().strip() == 'y':
         X = [1, 2, 3]
         fig = plt.figure()
         ax1 = fig.add_subplot(2, 1, 1)
