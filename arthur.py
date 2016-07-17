@@ -89,7 +89,7 @@ if __name__ == '__main__':
             line = f.readline()
             if not line:
                 break
-            line = map(float, line.split(','))
+            line = [float(number) for number in line.split(',')]
             result_accuracy.append(line[0])
             result_tpp.append(line[1])
     print("{} {}digit and {}digitの結果を表示しますか?[y/n]".format(args.operator, args.shape[0], args.shape[1]))
