@@ -26,4 +26,4 @@ add, mul, sub are supported.
 
 
 
-
+[1](https://www.ted.com/talks/arthur_benjamin_does_mathemagic?language = ja)
