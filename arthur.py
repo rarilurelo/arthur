@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from __future__ import division
+from __future__ import print_function
 import argparse
 import numpy as np
 import subprocess
@@ -56,13 +57,13 @@ class Problem(object):
                 self.question(first, secound)
                 inference = raw_input()
             if answer == int(inference):
-                print "正解!"
+                print("正解!")
                 correct += 1
             else:
-                print "ばーか.答えは{}だよ".format(answer)
+                print("ばーか.答えは{}だよ".format(answer))
         accuracy = correct/self.num*100
         tpp      = round((time.time()-s)/self.num, 3)
-        print "正解率{}%, 一問あたりにかかった時間{}sec".format(accuracy, tpp)
+        print("正解率{}%, 一問あたりにかかった時間{}sec".format(accuracy, tpp))
         return accuracy, tpp
 
 
@@ -91,7 +92,7 @@ if __name__ == '__main__':
             line = map(float, line.split(','))
             result_accuracy.append(line[0])
             result_tpp.append(line[1])
-    print "{} {}digit and {}digitの結果を表示しますか?[y/n]".format(args.operator, args.shape[0], args.shape[1])
+    print("{} {}digit and {}digitの結果を表示しますか?[y/n]".format(args.operator, args.shape[0], args.shape[1]))
     if raw_input() == 'y':
         X = [1, 2, 3]
         fig = plt.figure()
