@@ -53,14 +53,19 @@ class Problem(object):
         for first, secound, answer in self.triplet():
             self.question(first, secound)
             inference = sys.stdin.readline().strip()
-            while 'onemore' == inference:
-                self.question(first, secound)
+            while 'onemore' == inference or not inference.isdigit():
+                if 'onemore' == inference:
+                    self.question(first, secound)
+                elif not inference.isdigit():
+                    print("打ち間違い. もっかい!")
                 inference = sys.stdin.readline().strip()
             if answer == int(inference):
                 print("正解!")
+                subprocess.call("echo ピンポーん | say", shell=True)
                 correct += 1
             else:
                 print("ばーか.答えは{}だよ".format(answer))
+                subprocess.call("echo ぶっぶー | say", shell=True)
         accuracy = correct/self.num*100
         tpp      = round((time.time()-s)/self.num, 3)
         print("正解率{}%, 一問あたりにかかった時間{}sec".format(accuracy, tpp))
