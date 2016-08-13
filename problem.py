@@ -7,7 +7,7 @@ import numpy as np
 import subprocess
 import time
 import sys
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 class Problem(object):
