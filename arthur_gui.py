@@ -7,18 +7,25 @@ from problem import Problem
 
 class MessageBox(wx.Frame):
     def __init__(self, parent, message, id=wx.ID_ANY):
-        super(MessageBox, self).__init__(parent, id, title='hoggg', size=[200, 200])
+        super(MessageBox, self).__init__(parent, id, title='正答', size=[500, 500])
 
         panel = wx.Panel(self)
-        button = wx.Button(panel, label='OK', pos=[100, 50], size=[50, 50])
-        text = wx.StaticText(panel, wx.ID_ANY, message, pos=[100, 10], size=[30, 30])
+        button = wx.Button(panel, label='OK', pos=[200, 400], size=[100, 100])
+        text = wx.StaticText(panel, wx.ID_ANY, message, pos=[200, 150], size=[100, 100])
+        self.font = wx.Font(20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+
+        button.SetFont(self.font)
+        text.SetFont(self.font)
+
         self.Bind(wx.EVT_BUTTON, self.close, button)
+
+
     def close(self, event):
         self.Destroy()
 
 class CalFrame(wx.Frame):
     def __init__(self, parent, seq, operator, id=wx.ID_ANY):
-        super(CalFrame, self).__init__(parent, id, title='hogege', size=[500, 500])
+        super(CalFrame, self).__init__(parent, id, title='問題', size=[500, 500])
 
         panel = wx.Panel(self)
         self.correct = 0
@@ -26,14 +33,19 @@ class CalFrame(wx.Frame):
         self.seq = seq
         self.gen = self.seq_y()
         self.triple = self.gen.next()
+        self.font = wx.Font(20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         self.question = wx.StaticText(panel,
                 wx.ID_ANY,
                 self.q_text(self.triple),
-                pos=[200, 50],
+                pos=[200, 150],
                 size=[100, 100])
+        self.question.SetFont(self.font)
 
         self.input = wx.TextCtrl(panel, wx.ID_ANY, pos=[200, 300], size=[100, 100])
         self.button = wx.Button(panel, label='入力', pos=[200, 400], size=[100, 100])
+
+        self.input.SetFont(self.font)
+        self.button.SetFont(self.font)
 
         self.Bind(wx.EVT_BUTTON, self.input_answer, self.button)
 
@@ -52,6 +64,7 @@ class CalFrame(wx.Frame):
         mes.Show()
         self.triple = self.gen.next()
         self.question.SetLabel(self.q_text(self.triple))
+        self.input.SelectAll()
 
     def seq_y(self):
         for f in self.seq:
@@ -68,19 +81,27 @@ class CalFrame(wx.Frame):
 
 class MainFrame(wx.Frame):
     def __init__(self, parent, id=wx.ID_ANY):
-        super(MainFrame, self).__init__(parent, id, title='hoge', size=[500, 500])
+        super(MainFrame, self).__init__(parent, id, title='計算', size=[500, 500])
 
         panel = wx.Panel(self)
-        add = wx.Button(panel, label='足し算', pos=[250, 30], size=[100, 100])
-        #mul = wx.Button(panel, label='掛け算', pos=[250, 150], size=[100, 100])
+        add = wx.Button(panel, label='足し算', pos=[200, 50], size=[100, 100])
+        mul = wx.Button(panel, label='掛け算', pos=[200, 250], size=[100, 100])
         #sub = wx.Button(panel, label='ひき算', pos=[250, 270], size=[100, 100])
+        self.font = wx.Font(20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        add.SetFont(self.font)
+        mul.SetFont(self.font)
 
         self.Bind(wx.EVT_BUTTON, self.start_add, add)
-        #self.Bind(wx.EVT_BUTTON, self.start_mul, mul)
+        self.Bind(wx.EVT_BUTTON, self.start_mul, mul)
         #self.Bind(wx.EVT_BUTTON, self.start_sub, sub)
 
     def start_add(self, event):
         p = Problem(20, (2, 2), 'add')
+        cal_farme = CalFrame(parent=self, seq=p.sequence, operator=p.voice)
+        cal_farme.Show()
+
+    def start_mul(self, event):
+        p = Problem(20, (2, 1), 'mul')
         cal_farme = CalFrame(parent=self, seq=p.sequence, operator=p.voice)
         cal_farme.Show()
 
