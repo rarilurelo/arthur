@@ -39,13 +39,11 @@ class Problem(object):
         return np.random.randint(pow(10, length-1), pow(10, length))
 
     def triplet(self):
-        self.sequence = []
-        for _  in range(self.num):
+        while True:
             first   = self.__random_digit(self.caled)
             secound = self.__random_digit(self.calee)
             triplet = (first, secound, self.operator(first, secound))
-            self.sequence.append(triplet)
-        return self.sequence
+            yield triplet
 
     def __call__(self):
         s = time.time()
@@ -66,10 +64,12 @@ class Problem(object):
             else:
                 print("ばーか.答えは{}だよ".format(answer))
                 subprocess.call("echo ぶっぶー | say", shell=True)
+            if correct == self.num:
+                break
         accuracy = correct/self.num*100
-        tpp      = round((time.time()-s)/self.num, 3)
-        print("正解率{}%, 一問あたりにかかった時間{}sec".format(accuracy, tpp))
-        return accuracy, tpp
+        all_time = round(time.time()-s, 3)
+        print("正解率{}%, かかった時間{}sec".format(accuracy, all_time))
+        return accuracy, all_time
 
 
 if __name__ == '__main__':
@@ -82,40 +82,44 @@ if __name__ == '__main__':
 
     p = Problem(args.num, args.shape, args.operator, args.mute)
 
-    accuracy, tpp = p()
+    accuracy, all_time = p()
 
     result_accuracy = []
-    result_tpp      = []
+    result_all_time = []
 
-    with open("{}_{}_{}.log".format(args.operator, args.shape[0], args.shape[1]), "a+") as f:
-        f.write("{},{}\n".format(accuracy, tpp))
-    with open("{}_{}_{}.log".format(args.operator, args.shape[0], args.shape[1]), "r") as f:
+    with open("{}_{}_{}_only_time_{}.log".format(args.operator, args.shape[0], args.shape[1], args.num), "a+") as f:
+        f.write("{},{}\n".format(accuracy, all_time))
+    with open("{}_{}_{}_only_time_{}.log".format(args.operator, args.shape[0], args.shape[1], args.num), "r") as f:
         while True:
             line = f.readline()
             if not line:
                 break
             line = [float(number) for number in line.split(',')]
             result_accuracy.append(line[0])
-            result_tpp.append(line[1])
+            result_all_time.append(line[1])
     print("{} {}digit and {}digitの結果を表示しますか?[y/n]".format(args.operator, args.shape[0], args.shape[1]))
     if sys.stdin.readline().strip() == 'y':
-        X = [1, 2, 3]
+        X = [1, 2, 3, 4, 5, 6, 7]
+        if len(X) >= len(result_all_time):
+            X = X[:len(result_all_time)]
         fig = plt.figure()
-        ax1 = fig.add_subplot(2, 1, 1)
-        ax2 = fig.add_subplot(2, 1, 2)
+        ax1 = fig.add_subplot(1, 1, 1)
+        #ax2 = fig.add_subplot(2, 1, 2)
 
-        ax1.bar(X, [sum(result_tpp)/len(result_tpp), min(result_tpp), result_tpp[-1]], align='center')
-        ax1.set_title('time per problem')
+        #ax1.bar(X, [sum(result_all_time)/len(result_all_time), min(result_all_time), result_all_time[-1]], align='center')
+        ax1.plot(X, result_all_time)
+        ax1.set_title('all time in problem')
         ax1.set_ylabel('s')
         ax1.set_xticks(X)
-        ax1.set_xticklabels(['mean', 'min', 'now'])
+        #ax1.set_xticklabels(['mean', 'min', 'now'])
 
-        score = np.array(result_accuracy)/np.array(result_tpp)
-        ax2.bar(X, [np.mean(score), np.max(score), score[-1]], align='center')
-        ax2.set_title('score')
-        ax2.set_xticks(X)
-        ax2.set_xticklabels(['mean', 'max', 'now'])
-        plt.subplots_adjust(hspace=0.4)
+        #score = np.array(result_accuracy)/np.array(result_all_time)
+        #ax2.bar(X, [np.mean(score), np.max(score), score[-1]], align='center')
+        #ax2.plot(X, result)
+        #ax2.set_title('score')
+        #ax2.set_xticks(X)
+        #ax2.set_xticklabels(['mean', 'max', 'now'])
+        #plt.subplots_adjust(hspace=0.4)
         plt.show()
 
 
