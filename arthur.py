@@ -102,6 +102,8 @@ if __name__ == '__main__':
         X = [1, 2, 3, 4, 5, 6, 7]
         if len(X) >= len(result_all_time):
             X = X[:len(result_all_time)]
+        else:
+            result_all_time = result_all_time[-len(X):]
         fig = plt.figure()
         ax1 = fig.add_subplot(1, 1, 1)
         #ax2 = fig.add_subplot(2, 1, 2)
